@@ -100,8 +100,8 @@ streamlit run main.py
 ## 🔧 Technology Stack
 
 - **Frontend**: Streamlit
-- **Audio Processing**: ACRCloud API
-- **Lyrics**: LRCLIB API
+- **Audio Processing**: ACRCloud API, SAZAM API
+- **Lyrics**: LRCLIB API, MUSIXMATCH API
 - **AI Chat**: Groq API (Mixtral-8x7B)
 - **Music Metadata**: ACRCloud Metadata API
 
