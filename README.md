@@ -62,7 +62,7 @@ audio-recorder-streamlit
 ### Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/song-radar.git
+git clone https://github.com/ShadipKumarJoshi/Song-Radar.git
 cd song-radar
 ```
 
