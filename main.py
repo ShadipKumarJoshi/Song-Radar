@@ -5,10 +5,21 @@ from frontend import render_frontend
 from audio_utils import record_audio
 from api_handler import identify_song
 from PIL import Image
+import pandas as pd
 import time
 import os
 from music_llm import render_chat_interface
 
+def load_data():
+    try:
+        return pd.read_csv("data/clean/7_clustered_dataset.csv")
+    except FileNotFoundError:
+        st.error("The dataset file could not be found. Please check the file path.")
+        return pd.DataFrame()  # Return an empty DataFrame if file not found
+
+
+# Load the dataset
+songs_df = load_data()
 def display_song_details(song_details):
     """
     Display the identified song's details in a structured format.
