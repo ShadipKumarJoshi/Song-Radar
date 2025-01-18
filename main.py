@@ -143,7 +143,7 @@ def main():
         st.write("""
             Please follow the instructions below to record a song snippet and identify it.
             
-            1. Press the **📢 Start Recording** button to begin.
+            1. Press the **Click to Record** button to begin. Green mic 🟩- Recording.... Yellow mic 🟨- Not Recording
             2. After recording, your audio will be automatically saved.
             3. Preview your recording.
             4. Click **🔍 Identify Song** to find out details about the song.
