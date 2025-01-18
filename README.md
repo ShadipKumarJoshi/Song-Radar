@@ -77,6 +77,10 @@ pip install -r requirements.txt
 ACCESS_KEY=""
 ACCESS_SECRET=""
 
+# Spotify API
+SPOTIFY_CLIENT_ID = ""
+SPOTIFY_CLIENT_SECRET = ""
+
 # MusixMatch API
 MUSIXMATCH_API_KEY=""
 
