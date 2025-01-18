@@ -127,5 +127,7 @@ Example questions:
 
 ## 📝 API Credits
 - ACRCloud for audio recognition
+- Sazam for audio recognition
 - LRCLIB for lyrics database
+- Musixmatch for lyrics database
 - Groq for AI conversations
