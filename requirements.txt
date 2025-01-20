@@ -4,4 +4,7 @@ scipy
 requests
 numpy
 python-dotenv==1.0.0
+spotipy==2.25.0
+matplotlib==3.10.0
+matplotlib-inline==0.1.7
 groq
