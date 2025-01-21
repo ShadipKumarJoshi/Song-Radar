@@ -1,5 +1,6 @@
 streamlit
 audio-recorder-streamlit
+scikit-learn==1.6.0
 scipy
 requests
 numpy
@@ -7,4 +8,5 @@ python-dotenv==1.0.0
 spotipy==2.25.0
 matplotlib==3.10.0
 matplotlib-inline==0.1.7
+seaborn==0.13.2
 groq
