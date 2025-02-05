@@ -1,6 +1,5 @@
 # 🎵 SONG RADAR
 
-https://music-finder.streamlit.app/
 
 A powerful music discovery and identification app that combines audio recognition, lyrics search, and AI-powered music recommendations.
 
@@ -15,6 +14,12 @@ A powerful music discovery and identification app that combines audio recognitio
   - Streaming links (Spotify, YouTube, Apple Music)
   - Audio preview when available
   - Full and synchronized lyrics
+ 
+### 1.1 🎤 Get Recommendations
+- **Get recommendations of songs by singer by popularity
+- **Rich Song Details**:
+  - Album artwork and track information
+  - Genre, release date, and duration
 
 ### 2. 🔎 Song Search
 - **Comprehensive Search**: Find songs by name, artist, or album
