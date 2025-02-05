@@ -1,4 +1,4 @@
-track_name,artist,album,release_year,popularity,is_explicit,duration_seconds,rock,pop,blues,metal,hip-hop,country,punk,jazz,rap,reggae,folk,soul,latin,dance,indie,classical,album_cover,genres,Cluster,cluster
+title,artist,album,release_year,popularity,is_explicit,duration_seconds,rock,pop,blues,metal,hip-hop,country,punk,jazz,rap,reggae,folk,soul,latin,dance,indie,classical,album_cover,genres,Cluster,cluster
 Je sais que la Terre est plate,Raphaël,Je Sais Que La Terre Est Plate,2008,14,False,150,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,https://i.scdn.co/image/ab67616d0000b2739e6b957c3a5c93a20ebc6e66,"['chanson', 'french pop', 'french rock', 'nouvelle chanson francaise']",22,22
 On efface,Julie Zenatti,Comme vous...,2004,1,False,253,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,https://i.scdn.co/image/ab67616d0000b27398d44580b5414f6b817987d7,"['chanson', 'french pop']",9,9
 Howells Delight,Anonymous,The Best of the Baltimore Consort,2011,3,False,240,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,https://i.scdn.co/image/ab67616d0000b27353a906ca883e285a00010d9d,['medieval'],2,2

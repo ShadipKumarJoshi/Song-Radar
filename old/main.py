@@ -9,37 +9,24 @@ import pandas as pd
 import time
 import os
 from music_llm import render_chat_interface
-from sklearn.preprocessing import MultiLabelBinarizer
-import ast
-from sklearn.metrics.pairwise import cosine_similarity
+
+def load_data():
+    try:
+        return pd.read_csv("data/clean/7_clustered_dataset.csv")
+    except FileNotFoundError:
+        st.error("The dataset file could not be found. Please check the file path.")
+        return pd.DataFrame()  # Return an empty DataFrame if file not found
+
 
 # Load the dataset
-def load_data():
-    df = pd.read_csv("data/clean/7_clustered_dataset.csv")
-    df['genres'] = df['genres'].apply(ast.literal_eval)  # Convert string to list
-    df['genres_str'] = df['genres'].apply(lambda x: ', '.join(x) if isinstance(x, list) else '')  # Convert to string
-    return df
-
 songs_df = load_data()
-
-# Genre Columns for Cosine Similarity
-genre_columns = ['rock', 'pop', 'blues', 'metal', 'hip-hop', 'country', 'punk', 
-                 'jazz', 'rap', 'reggae', 'folk', 'soul', 'latin', 'dance', 'indie', 'classical']
-
-# Compute Cosine Similarity
-genre_matrix = songs_df[genre_columns].values
-cosine_sim = cosine_similarity(genre_matrix)
-
 def display_song_details(song_details):
     """
     Display the identified song's details in a structured format.
     """
-
     st.markdown("----")
     cols = st.columns([1, 2])
-     # Fetch and display other songs by the same artist
     
-
     with cols[0]:
         if song_details.get('album_art_url'):
             st.image(song_details['album_art_url'], 
@@ -53,9 +40,9 @@ def display_song_details(song_details):
         st.markdown(f"**🎤 Artist:** {song_details['artist']}")
         st.markdown(f"**💿 Album:** {song_details['album']}")
         st.markdown(f"**🎼 Genre:** {song_details['Genre']}")
-        st.markdown(f"**⏱️Duration:** {format_duration(song_details['Duration']*60)}")
+        st.markdown(f"**⏱️ Duration:** {song_details['Duration']} min")
         st.markdown(f"**📅 Release Date:** {song_details['Release_date']}")
-    
+        
         # Add streaming buttons
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -93,9 +80,6 @@ def display_song_details(song_details):
     if song_details.get('synced_lyrics'):
         with st.expander("🎵 View Synced Lyrics"):
             st.markdown(song_details['synced_lyrics'].replace('\n', '  \n'))
-    
-     # Fetch similar songs
-    
 
 def display_shazam_results(shazam_results):
     if shazam_results.get("status"):
@@ -190,7 +174,6 @@ def main():
                 if "error" not in song_details:
                     st.success("🎉 **Song Identified!**")
                     display_song_details(song_details)
-                    display_recommendations(song_details)
                 else:
                     st.error(song_details["error"])
         else:
@@ -227,7 +210,7 @@ def main():
                                     st.markdown(f"**Artist:** {result['artist']}")
                                     st.markdown(f"**Album:** {result.get('album', 'N/A')}")
                                     st.markdown(f"**Genre:** {result.get('Genre', 'N/A')}")
-                                    st.markdown(f"**Duration:** {format_duration(result.get('Duration', 0)*60)}")
+                                    st.markdown(f"**Duration:** {result.get('Duration', 0):.2f} min")
                                     st.markdown(f"**Released:** {result.get('Release_date', 'N/A')}")
                                     
                                     if result.get('preview_url'):
@@ -292,83 +275,6 @@ def main():
         - 🎼 Music analysis
         """)
         render_chat_interface()
-
-# Function to Get Similar Songs Based on Artist or Genres
-def get_recommendations(song_details, num_recommendations=5):
-    """
-    Recommend similar songs based on genre similarity and artist match.
-    If no genres are found, recommendations are based solely on the artist.
-    """
-    artist_name = song_details.get("artist", "").strip().lower()
-    song_genres = song_details.get("Genre", "").strip()
-    track_name = song_details.get("track_name", "").strip().lower()
-
-    # Get songs by the same artist
-    artist_songs = songs_df[songs_df['artist'].str.lower().str.strip() == artist_name]
-
-    # Check if genres are available
-    if song_genres:
-        # Convert genre string to a list
-        song_genres_list = [g.strip().lower() for g in song_genres.split(",")]
-
-        # Filter songs with at least one matching genre
-        genre_songs = songs_df[songs_df['genres'].apply(lambda x: any(g in x for g in song_genres_list))]
-
-        # Combine artist-based and genre-based recommendations
-        recommended_songs = pd.concat([artist_songs, genre_songs]).drop_duplicates(subset=['track_name', 'genres_str'])
-    else:
-        # No genre found, recommend based on artist only
-        recommended_songs = artist_songs
-    # If no recommendations are found, return artist-based songs only
-    if recommended_songs.empty:
-        recommended_songs = artist_songs
-
-    
-    recommended_songs = recommended_songs[
-        recommended_songs['track_name'].str.lower().str.strip() != track_name
-]
-    # Sort by popularity
-    recommended_songs = recommended_songs.sort_values(by='popularity', ascending=False)
-
-    return recommended_songs.head(num_recommendations)
-
-# Function to Display Recommendations in Streamlit
-def display_recommendations(song_details):
-    st.subheader("🎵 Recommended Songs")
-
-    recommendations = get_recommendations(song_details)
-
-    if recommendations.empty:
-        st.info("No recommendations found.")
-        return
-
-    for index, row in recommendations.iterrows():
-        col1, col2 = st.columns([1, 3])
-
-        with col1:
-            if row["album_cover"]:
-                st.image(row["album_cover"], width=100, caption=row["track_name"])
-            else:
-                st.write("🎨 No Album Art")
-
-        with col2:
-            st.markdown(f"### {row['track_name']}")
-            st.markdown(f"**Artist:** {row['artist']}")
-            st.markdown(f"**Album:** {row['album']}")
-            st.markdown(f"**Genre:** {', '.join(row['genres']) if row['genres'] else 'N/A'}")
-            st.markdown(f"**Release Year:** {row.get('release_year', 'N/A')}")
-            st.markdown(f"**Duration:** {format_duration(row.get('duration_seconds', 0))}")
-            st.markdown(f"**🔥 Popularity:** {row['popularity']}")
-
-        st.markdown("---")
-
-# Function to Format Duration in Minutes and Seconds
-def format_duration(seconds):
-    if pd.isnull(seconds) or seconds == 0:
-        return "N/A"
-    minutes = int(seconds // 60)
-    seconds = int(seconds % 60)
-    return f"{minutes} min {seconds} sec"
 
 if __name__ == "__main__":
     main()
